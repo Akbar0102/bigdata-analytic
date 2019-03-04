@@ -1,0 +1,13 @@
+months,avg_temp,max_temp,min_temp,rainfall,rainy_day,LPM,city,year
+January,23.8,29.7,20.8,392.8,23,52,Bandung,2016
+February,24,29.3,21.3,194.4,23,42,Bandung,2016
+March,24.1,29.8,21.3,442.3,30,44,Bandung,2016
+April,24,29.6,20.9,559.6,29,53,Bandung,2016
+May,24,29.3,21.1,327.2,27,54,Bandung,2016
+June,23.7,29.1,20.2,139.3,21,57,Bandung,2016
+July,23.3,29.1,19.5,182.3,23,70,Bandung,2016
+August,23.6,29.3,19.6,128.7,17,67,Bandung,2016
+September,23.6,28.9,20.1,286.2,25,53,Bandung,2016
+October,23.1,28.4,20.2,393.4,29,37,Bandung,2016
+November,23.4,28.8,20.5,443,30,39,Bandung,2016
+December,24.4,29.4,21.1,59.9,23,51,Bandung,2016
