@@ -1,0 +1,12 @@
+#run from server
+jupyter notebook --no-browser --port=8887
+
+#run from local
+ssh -N -L localhost:8888:localhost:8887 sasha@remote
+ssh -N -L localhost:8888:localhost:8887 hadoop@192.168.1.140
+(kalau port 8888 uda dipakai ganti dengan lainnya, misal 8886)
+
+
+#run from local via browser and fill the password token from server terminal
+localhost:8888
+
