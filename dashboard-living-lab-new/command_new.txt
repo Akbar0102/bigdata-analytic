@@ -1,0 +1,80 @@
+==atribut data parkir==
+acp_id
+date
+feed_id
+parking_id
+spaces_capacity
+spaces_free
+spaces_occupied
+
+==atribut data sensor udara==
+ozone
+particullate_matter
+carbon_monoxide
+temperature
+humidity
+date
+
+==atribut data vehicle detection dari cctv==
+date
+type
+color
+direction
+speed
+
+===========
+==COMMAND==
+===========
+###zookeeper server###
+kafka_2.12-2.1.1/bin/zookeeper-server-start.sh kafka_2.12-2.1.1/config/zookeeper.properties
+
+###kafka server###
+kafka_2.12-2.1.1/bin/kafka-server-start.sh kafka_2.12-2.1.1/config/server.properties
+
+###buat topic###
+kafka_2.12-2.1.1/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic sensorudara
+
+###list topic###
+kafka_2.12-2.1.1/bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+###producer###
+( curl -s https://i-ssp.id/assets/hadoop/data/sensor_udara.gz \
+  | zcat \
+  | split -l 1 --filter="kafka_2.12-2.1.1/bin/kafka-console-producer.sh \
+    --broker-list localhost:9092 --topic sensor; sleep 10"\
+  > /dev/null ) &
+
+  kafka_2.12-2.1.1/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic vehicle
+
+##########
+###json###
+##########
+#airsensor#
+( curl --header "Content-Type: application/json" https://i-ssp.id/assets/hadoop/data/airsensor.json | \
+   split -l 1 --filter="kafka_2.12-2.1.1/bin/kafka-console-producer.sh \
+    --broker-list localhost:9092 --topic sensorudara; sleep 5"\ > /dev/null ) &
+#parking#
+( curl --header "Content-Type: application/json" https://i-ssp.id/assets/hadoop/data/parking_babraham_park.json | \
+   split -l 1 --filter="kafka_2.12-2.1.1/bin/kafka-console-producer.sh \
+    --broker-list localhost:9092 --topic parking; sleep 5"\ > /dev/null ) &
+( curl --header "Content-Type: application/json" https://i-ssp.id/assets/hadoop/data/parking_queen_anne.json | \
+   split -l 1 --filter="kafka_2.12-2.1.1/bin/kafka-console-producer.sh \
+    --broker-list localhost:9092 --topic parking; sleep 5"\ > /dev/null ) &
+#waste#
+( curl --header "Content-Type: application/json" https://i-ssp.id/assets/hadoop/data/waste1.json | split -l 1 --filter="kafka_2.12-2.1.1/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic waste1; sleep 5" > /dev/null ) &
+#vehicle#
+( curl --header "Content-Type: application/json" https://i-ssp.id/assets/hadoop/data/vehicle_detection.json | \
+   split -l 1 --filter="kafka_2.12-2.1.1/bin/kafka-console-producer.sh \
+    --broker-list localhost:9092 --topic vehicle; sleep 20"\ > /dev/null ) &
+
+###consumer###
+kafka_2.12-2.1.1/bin/kafka-console-consumer.sh \
+  --bootstrap-server localhost:9092 --topic vehicle --from-beginning
+
+#curl json
+curl -X GET -H "Content-Type:application/json" https://i-ssp.id/assets/hadoop/data/sensor_udara.json
+atau
+curl -i -H "Content-Type:application/json" https://i-ssp.id/assets/hadoop/data/sensor_udara.json
+
+#curl json ke kafka producer
+jq -rc .  ~/Downloads/data.json |split -l 1 kafka_2.12-2.1/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic  stream-test-topic; sleep 60

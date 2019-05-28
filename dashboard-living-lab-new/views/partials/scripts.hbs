@@ -1,0 +1,38 @@
+<!-- Bootstrap core JavaScript-->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/dist/js/sb-admin-2.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script src="/dist/chartjs-chart-radial-gauge/build/Chart.RadialGauge.umd.min.js"></script>
+<script src="/dist/js/moment.js"></script>
+
+{{#if airsensor}}
+  <script src="/data/co-chart.js"></script>
+  <script src="/data/hum-chart.js"></script>
+  <script src="/data/ozone-chart.js"></script>
+  <script src="/data/temp-chart.js"></script>
+{{/if}}
+
+{{#if parking}}
+	<script src="/data/parking-chart.js"></script>
+{{/if}}
+
+{{#if maps}}
+	<script src="/data/map.js"></script>
+{{/if}}
+
+{{#if waste}}
+	<script src="/data/grafik.js"></script>
+	<script src="/data/waste1.js"></script>
+{{/if}}
+
+{{#if vehicle}}
+  <script src="/data/vehicle.js"></script>
+{{/if}}
